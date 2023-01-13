@@ -8,15 +8,13 @@ import Stock from "./pages/Stock";
 
 function App() {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/stock" element={<Stock />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/stock" element={<Stock />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
