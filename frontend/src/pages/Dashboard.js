@@ -1,3 +1,4 @@
+import SearchBox from "../components/SearchBox";
 import TradeBar from "../components/TradeBar"
 
 
@@ -6,6 +7,7 @@ export default function Dashboard() {
     <>
   <h1>Dashboard</h1>
   <TradeBar />
+  <SearchBox />
   </>
   );
 }
