@@ -6,13 +6,13 @@ import Stock from "./pages/Stock";
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/stock" element={<Stock />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/stock" element={<Stock />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
