@@ -17,7 +17,9 @@ function LoginBox() {
     } else if (window.web3) {
       provider = window.web3.currentProvider;
     } else {
-      console.log("Non-ethereum browser detected. You should install Metamask");
+      console.log(
+        "Non-ethereum browser detected. You should install Metamask Browser."
+      );
     }
     return provider;
   };
@@ -36,7 +38,7 @@ function LoginBox() {
         dispatch(addressCollected(account));
       }
     } catch (err) {
-      alert(err);
+      alert(err.message);
       console.log(err);
     }
   };
