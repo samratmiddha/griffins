@@ -15,6 +15,8 @@ import { Chip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 import { addressCollected } from "../../features/slices/userSlice";
+import { useNavigate } from "react-router-dom";
+import emitWarnToast from "../../utilities/emitWarnToast";
 
 function Header() {
   const pages = [];
@@ -23,6 +25,7 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const currentUserAddress = useSelector((state) => state.user.userAddress);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const detectCurrentProvider = () => {
     let provider;
@@ -31,8 +34,8 @@ function Header() {
     } else if (window.web3) {
       provider = window.web3.currentProvider;
     } else {
-      console.log(
-        "Non-ethereum browser detected. You should install Metamask Browser Extension."
+      emitWarnToast(
+        "Non-ethereum browser detected. Install Metamask extension."
       );
     }
     return provider;
@@ -50,7 +53,6 @@ function Header() {
         dispatch(addressCollected(account));
       }
     } catch (err) {
-      alert(err.message);
       console.log(err);
     }
   };
@@ -92,7 +94,9 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={() => {
+              navigate("/");
+            }}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -101,6 +105,7 @@ function Header() {
               letterSpacing: ".3rem",
               color: "#F3EF52",
               textDecoration: "none",
+              cursor: `pointer`,
             }}
           >
             Webster
@@ -181,7 +186,7 @@ function Header() {
 
           <Box sx={{ flexGrow: 0 }}>
             {!currentUserAddress ? (
-              <Tooltip title="Navigate to Login">
+              <Tooltip title="Enable user access">
                 <Chip
                   label="Unable to access user acount"
                   color="warning"
@@ -194,8 +199,8 @@ function Header() {
                   label={
                     "User " + currentUserAddress.slice(0, 10) + "... accessed"
                   }
-                  color="primary"
                   onClick={handleOpenUserMenu}
+                  color="info"
                 />
               </Tooltip>
             )}

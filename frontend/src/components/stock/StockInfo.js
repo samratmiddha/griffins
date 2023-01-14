@@ -23,13 +23,14 @@ export default function StockInfo() {
   return (
     <Box
       sx={{
-        flexGrow: 3,
-        maxWidth: "60vw",
-        marginLeft: "2vw",
+        maxWidth: "100%",
         alignSelf: "center",
         backgroundColor: "#27292F",
-        padding: "2rem",
+        padding: "20px",
         borderRadius: "10px",
+        height: `80%`,
+        overflow: `auto`,
+        flexGrow: `5`,
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
