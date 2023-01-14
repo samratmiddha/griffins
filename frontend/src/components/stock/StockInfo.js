@@ -113,11 +113,11 @@ export default function StockInfo() {
           </Button>
           <Button
             onClick={() => {
-              setChartOption("5Y");
+              setChartOption("3Y");
             }}
             sx={{ color: "#F3EF52" }}
           >
-            5Y
+            3Y
           </Button>
         </Box>
       </Box>
