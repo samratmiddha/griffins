@@ -2,6 +2,8 @@ import axios from "axios";
 import getStockData from "../../utilities/getStockData";
 import { nanoid } from "nanoid";
 import emitWarnToast from "../../utilities/emitWarnToast";
+
+
 export default function getDataFor1day(symbol, setStockDataset, first = true) {
   axios
     .get(

@@ -15,6 +15,7 @@ import { Chip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Web3 from "web3";
 import { addressCollected } from "../../features/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const pages = [];
@@ -23,6 +24,7 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const currentUserAddress = useSelector((state) => state.user.userAddress);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const detectCurrentProvider = () => {
     let provider;
@@ -92,7 +94,9 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={() => {
+              navigate("/");
+            }}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -101,6 +105,7 @@ function Header() {
               letterSpacing: ".3rem",
               color: "#F3EF52",
               textDecoration: "none",
+              cursor: `pointer`,
             }}
           >
             Webster
@@ -194,8 +199,8 @@ function Header() {
                   label={
                     "User " + currentUserAddress.slice(0, 10) + "... accessed"
                   }
-                  color="primary"
                   onClick={handleOpenUserMenu}
+                  color="info"
                 />
               </Tooltip>
             )}
