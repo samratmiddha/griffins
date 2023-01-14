@@ -26,6 +26,7 @@ export default function getStockInfo(
         emitWarnToast("error while fetching Stock Information");
       } else {
         setStockInfo(res.data);
+        console.log("stock info", res.data);
         dispatch(changeCurrency(res.data.bestMatches[0]["8. currency"]));
       }
     });

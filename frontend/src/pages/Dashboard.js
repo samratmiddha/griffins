@@ -1,15 +1,22 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Header from "../components/header/Header";
 import SearchBox from "../components/dashboard/SearchBox";
 import TradeBar from "../components/stock/TradeBar";
 import TransactionButton from "../components/transaction/TransactionButton";
 import CreditsFooter from "../components/credits/CreditsFooter";
 import { ToastContainer } from "react-toastify" 
+import ipfsSaveFile from "../ipfs/ipfsStore";
+import validate from "../ipfs/validate";
 
 export default function Dashboard() {
+  const call = async () => {
+    validate();
+  }
+
   return (
     <>
     <Header />
+    <Button onClick = {call}>Click me</Button>
     <Box
       sx={{
         backgroundColor: "#141518",

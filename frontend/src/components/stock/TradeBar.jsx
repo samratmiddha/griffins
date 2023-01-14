@@ -15,7 +15,6 @@ import TransactionButton from "../transaction/TransactionButton";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-
 function TradeBar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const symbol = searchParams.get("symbol");

@@ -8,12 +8,16 @@ import emitSuccessToast from "../../utilities/emitSuccessToast";
 import emitWarnToast from "../../utilities/emitWarnToast";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BigNumber } from "ethers";
+import validate from "../../ipfs/validate";
+import checkBuffer from "../../ipfs/checkBuffer";
 
 function TransactionButton(props) {
   let {selectedAmount,symbol,selectedUnits}=props;
   
   const currentUserAddress = useSelector((state) => state.user.userAddress);
+  let value = 0.001;
+  let symbol = "";
+  let quantity = "";
 
   const ethToWeiHex = (eth) => {
     const wei = eth * 10 ** 18;
@@ -25,6 +29,7 @@ function TransactionButton(props) {
       alert("No user address found. Try logging in again!");
       return;
     }
+
     // let params = [
     //   {
     //     from: currentUserAddress,
@@ -56,6 +61,48 @@ function TransactionButton(props) {
     contract.on("StatusEvent",(status)=>{
       console.log(status);
     })
+   /* 
+   console.log(currentUserAddress);
+    const contractAddr = "0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de";
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(
+      contractAddr,
+      oracleContractABI,
+      provider
+    );
+
+    contract.on("RequestFirstId", async (requestID, status) => {
+      if (status) {
+        const isValid = validate(currentUserAddress);
+
+        if (isValid) {
+          let params = [
+            {
+              from: currentUserAddress,
+              // to: "0x1EF3A9077ba56c91d49837615E669455a5377629",
+              to: contractAddr,
+              value: ethToWeiHex(value),
+            },
+          ];
+
+          const transaction = await window.ethereum
+            .request({
+              method: "eth_sendTransaction",
+              params,
+            })
+            .catch((_error) => {
+              emitWarnToast("Transaction cancelled.");
+            });
+
+          if (transaction) {
+            emitSuccessToast("Transaction initiated.");
+            checkBuffer(symbol, quantity, transaction, currentUserAddress);
+          }
+        }
+      } else {
+        console.log(status);
+      }
+    }); */
   };
 
   const getTransactions = async () => {
@@ -86,23 +133,23 @@ function TransactionButton(props) {
     <>
       {/* <Button onClick={sendTransaction}>Create Transaction of 0.001 eth</Button> */}
       <Button
-          onClick={sendTransaction}
-          variant="contained"
-          sx={{
-            borderRadius: `20px`,
-            width: `20rem`,
-            height: `3rem`,
-            backgroundColor: `black`,
+        onClick={sendTransaction}
+        variant="contained"
+        sx={{
+          borderRadius: `20px`,
+          width: `20rem`,
+          height: `3rem`,
+          backgroundColor: `black`,
+          color: `white`,
+          "&:hover": {
+            backgroundColor: "black",
+            borderColor: "black",
             color: `white`,
-            "&:hover": {
-              backgroundColor: "black",
-              borderColor: "black",
-              color: `white`,
-            },
-          }}
-        >
-          Continue
-        </Button>
+          },
+        }}
+      >
+        Continue
+      </Button>
       {/* <Button onClick={getTransactions}>Get Transactions</Button> */}
       <ToastContainer />
     </>
