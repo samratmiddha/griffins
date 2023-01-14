@@ -4,33 +4,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { StockChart } from "./StockChart";
+import getStockInfo from "../../features/requests/getStockInfo";
+import getStockPrice from "../../features/requests/getStockPrice.js";
 
 export default function StockInfo() {
   const [searchParams, setSearchParams] = useSearchParams();
   const symbol = searchParams.get("symbol");
   const [stockInfo, setStockInfo] = useState();
-  const [chartOption, setChartOption] = useState("1W");
+  const [chartOption, setChartOption] = useState("1M");
   const [stockDataset, setStockDataset] = useState([]);
   const [stockPrice, setStockPrice] = useState();
   useEffect(() => {
-    axios
-      .get(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${nanoid()}`
-      )
-      .then((res) => {
-        console.log("response", res);
-        console.log(res.data, "data");
-        setStockInfo(res.data);
-        return res.data;
-      });
-    axios
-      .get(
-        `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${nanoid()}`
-      )
-      .then((res) => {
-        var key = Object.keys(res.data["Time Series (5min)"])[0];
-        setStockPrice(res.data["Time Series (5min)"][key]);
-      });
+    getStockInfo(symbol, setStockInfo);
+    getStockPrice(symbol, setStockPrice);
   }, [symbol]);
 
   return (
@@ -57,7 +43,13 @@ export default function StockInfo() {
         </Box>
       </Box>
       <hr></hr>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
         <Box sx={{ display: "flex" }}>
           <Typography variant="h2" sx={{ color: "#F3EF52" }}>
             {console.log(stockPrice)}
@@ -67,7 +59,7 @@ export default function StockInfo() {
             variant="h6"
             sx={{ alignSelf: "center", marginLeft: "1rem", color: "grey" }}
           >
-                  {stockInfo && stockInfo.bestMatches[0]["8. currency"]}
+            {stockInfo && stockInfo.bestMatches[0]["8. currency"]}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignContent: "center" }}>
