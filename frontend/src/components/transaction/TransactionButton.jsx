@@ -1,4 +1,6 @@
 import { Button } from "@mui/material";
+import { ethers } from "ethers";
+import oracleContractABI from "./oracleContractABI.json";
 import axios from "axios";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -20,11 +22,12 @@ function TransactionButton() {
       alert("No user address found. Try logging in again!");
       return;
     }
-
+    console.log(currentUserAddress)
     let params = [
       {
         from: currentUserAddress,
-        to: "0x1EF3A9077ba56c91d49837615E669455a5377629",
+        // to: "0x1EF3A9077ba56c91d49837615E669455a5377629",
+        to: "0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de",
         value: ethToWeiHex(0.001),
       },
     ];
@@ -41,6 +44,13 @@ function TransactionButton() {
     if (transaction) {
       emitSuccessToast("Transaction initiated.");
     }
+    const contractAddr="0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de";
+    const provider=new ethers.providers.Web3Provider(window.ethereum);
+    const contract=new ethers.Contract(contractAddr,oracleContractABI,provider);
+    contract.on("RequestFirstId",(requestID,costData)=>{
+      console.log("HEY");
+      console.log(costData);
+    })
   };
 
   const getTransactions = async () => {
@@ -69,8 +79,26 @@ function TransactionButton() {
 
   return (
     <>
-      <Button onClick={sendTransaction}>Create Transaction of 0.001 eth</Button>
-      <Button onClick={getTransactions}>Get Transactions</Button>
+      {/* <Button onClick={sendTransaction}>Create Transaction of 0.001 eth</Button> */}
+      <Button
+          onClick={sendTransaction}
+          variant="contained"
+          sx={{
+            borderRadius: `20px`,
+            width: `20rem`,
+            height: `3rem`,
+            backgroundColor: `black`,
+            color: `white`,
+            "&:hover": {
+              backgroundColor: "black",
+              borderColor: "black",
+              color: `white`,
+            },
+          }}
+        >
+          Continue
+        </Button>
+      {/* <Button onClick={getTransactions}>Get Transactions</Button> */}
       <ToastContainer />
     </>
   );
