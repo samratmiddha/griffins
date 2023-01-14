@@ -7,17 +7,55 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { Chip } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import Web3 from "web3";
+import { addressCollected } from "../../features/slices/userSlice";
 
 function Header() {
   const pages = [];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const currentUserAddress = useSelector((state) => state.user.userAddress);
+  const dispatch = useDispatch();
+
+  const detectCurrentProvider = () => {
+    let provider;
+    if (window.ethereum) {
+      provider = window.ethereum;
+    } else if (window.web3) {
+      provider = window.web3.currentProvider;
+    } else {
+      console.log(
+        "Non-ethereum browser detected. You should install Metamask Browser Extension."
+      );
+    }
+    return provider;
+  };
+
+  const onConnect = async () => {
+    try {
+      const currentProvider = detectCurrentProvider();
+      if (currentProvider) {
+        await currentProvider.request({ method: "eth_requestAccounts" });
+        const web3 = new Web3(currentProvider);
+        const userAccount = await web3.eth.getAccounts();
+        const account = userAccount[0];
+        let ethBalance = await web3.eth.getBalance(account);
+        dispatch(addressCollected(account));
+      }
+    } catch (err) {
+      alert(err.message);
+      console.log(err);
+    }
+  };
+
+  const emitLoginUser = () => {};
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,7 +75,7 @@ function Header() {
   return (
     <AppBar position="static">
       <Container
-        maxWidth="xl"
+        maxWidth="2000px"
         sx={{
           backgroundColor: `#141518`,
         }}
@@ -142,11 +180,25 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+            {!currentUserAddress ? (
+              <Tooltip title="Navigate to Login">
+                <Chip
+                  label="Unable to access user acount"
+                  color="warning"
+                  onClick={onConnect}
+                />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Profile settings">
+                <Chip
+                  label={
+                    "User " + currentUserAddress.slice(0, 10) + "... accessed"
+                  }
+                  color="primary"
+                  onClick={handleOpenUserMenu}
+                />
+              </Tooltip>
+            )}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
