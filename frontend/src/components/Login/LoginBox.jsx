@@ -1,14 +1,16 @@
-import { Button } from "@mui/material";
+import { Button, Typography, Box } from "@mui/material";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addressCollected } from "../features/slices/userSlice";
+import { addressCollected } from "../../features/slices/userSlice";
 import Web3 from "web3";
+import { useNavigate } from "react-router-dom";
 
 function LoginBox() {
   const [isConnected, setIsConnected] = useState(false);
   const [ethBalance, setEthBalance] = useState("");
   const currentUserAddress = useSelector((state) => state.user.userAddress);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const detectCurrentProvider = () => {
     let provider;
@@ -36,6 +38,7 @@ function LoginBox() {
         setEthBalance(ethBalance);
         setIsConnected(true);
         dispatch(addressCollected(account));
+        navigate("");
       }
     } catch (err) {
       alert(err.message);
@@ -48,12 +51,33 @@ function LoginBox() {
   };
 
   return (
-    <div>
-      Eth Balance: {ethBalance}
-      <br />
-      User Address: {currentUserAddress}
-      <br />
-      <Button onClick={onConnect}>Login with MetaMask</Button>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+        backgroundColor: "#141518",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <Box sx={{ alignSelf: "center" }}>
+        <Typography variant="h1" sx={{ color: "#F3EF52" }} align="center">
+          Webster
+        </Typography>
+        <Button
+          onClick={onConnect}
+          sx={{
+            color: "white",
+            textAlign: "center",
+            fontSize: "2rem",
+            border: "2px solid white",
+            marginTop: "4rem",
+          }}
+        >
+          Login with MetaMask
+        </Button>
+      </Box>
     </div>
   );
 }
