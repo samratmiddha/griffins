@@ -40,12 +40,13 @@ function TradeBar() {
   return (
     <Card
       sx={{
-        flexGrow: 1,
-        maxWidth: "60vw",
-        marginLeft: "3vw",
-        alignSelf: "center",
+        // maxWidth: `1000px`,
+        minWidth: "20rem",
         backgroundColor: "#F3EF52",
-        height: "80vh",
+        height: "80%",
+        minHeight: `600px`,
+        padding: `20px 0px`,
+        flexGrow: `2`,
       }}
     >
       <CardContent>
@@ -231,7 +232,6 @@ function TradeBar() {
       </CardContent>
       <CardActions
         sx={{
-          width: `100%`,
           justifyContent: `center`,
           margin: `20px 0px`,
         }}

@@ -3,6 +3,8 @@ import Header from "../components/header/Header";
 import SearchBox from "../components/dashboard/SearchBox";
 import TradeBar from "../components/stock/TradeBar";
 import TransactionButton from "../components/transaction/TransactionButton";
+import CreditsFooter from "../components/credits/CreditsFooter";
+import { ToastContainer } from "react-toastify" 
 
 export default function Dashboard() {
   return (
@@ -26,8 +28,9 @@ export default function Dashboard() {
         Webster
       </Typography> */}
       <SearchBox />
-      <TransactionButton />
     </Box>
+    <ToastContainer />
+    <CreditsFooter />
     </>
   );
 }
