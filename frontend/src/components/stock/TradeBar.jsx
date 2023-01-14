@@ -57,11 +57,26 @@ function TradeBar() {
             <ButtonGroup
               variant="outlined"
               aria-label="outlined primary button group"
+              sx={{
+                backgroundColor: `black`,
+                color: `white`,
+                borderColor: `#F3EF52`,
+              }}
             >
               <Button
                 variant={selectedMode === "buy" ? "contained" : "outlined"}
                 onClick={() => {
                   setSelectedMode("buy");
+                }}
+                sx={{
+                  backgroundColor: selectedMode === "buy" ? `black` : `#F3EF52`,
+                  color: selectedMode === "buy" ? `white` : `black`,
+                  borderColor: `black`,
+                  "&:hover": {
+                    backgroundColor: "black",
+                    borderColor: "black",
+                    color: `white`,
+                  },
                 }}
               >
                 Buy
@@ -70,6 +85,17 @@ function TradeBar() {
                 variant={selectedMode === "sell" ? "contained" : "outlined"}
                 onClick={() => {
                   setSelectedMode("sell");
+                }}
+                sx={{
+                  backgroundColor:
+                    selectedMode === "sell" ? `black` : `#F3EF52`,
+                  color: selectedMode === "sell" ? `white` : `black`,
+                  borderColor: `black`,
+                  "&:hover": {
+                    backgroundColor: "black",
+                    borderColor: "black",
+                    color: `white`,
+                  },
                 }}
               >
                 Sell
@@ -134,6 +160,9 @@ function TradeBar() {
               handleAmountChange(100);
             }}
             disabled={selectedUnits != 0}
+            sx={{
+              borderColor: `black`,
+            }}
           />
           <Chip
             label="200"
@@ -142,6 +171,9 @@ function TradeBar() {
               handleAmountChange(200);
             }}
             disabled={selectedUnits != 0}
+            sx={{
+              borderColor: `black`,
+            }}
           />
           <Chip
             label="500"
@@ -150,6 +182,9 @@ function TradeBar() {
               handleAmountChange(500);
             }}
             disabled={selectedUnits != 0}
+            sx={{
+              borderColor: `black`,
+            }}
           />
           <Chip
             label="1000"
@@ -158,6 +193,9 @@ function TradeBar() {
               handleAmountChange(1000);
             }}
             disabled={selectedUnits != 0}
+            sx={{
+              borderColor: `black`,
+            }}
           />
         </Box>
       </CardContent>
@@ -174,6 +212,13 @@ function TradeBar() {
             borderRadius: `20px`,
             width: `20rem`,
             height: `3rem`,
+            backgroundColor: `black`,
+            color: `white`,
+            "&:hover": {
+              backgroundColor: "black",
+              borderColor: "black",
+              color: `white`,
+            },
           }}
         >
           Continue
