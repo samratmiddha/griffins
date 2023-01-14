@@ -10,11 +10,26 @@ import {
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function TradeBar() {
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [selectedUnits, setSelectedUnits] = useState(0);
   const [selectedMode, setSelectedMode] = useState("buy");
+  const [scaleFactor, setScaleFactor] = useState(1);
+  const currency = useSelector((state) => state.stockPrice.currency);
+  const price = useSelector((state) => state.stockPrice.price);
+  if (currency) {
+    axios
+      .get(
+        `https://min-api.cryptocompare.com/data/price?fsym=${currency}&tsyms=ETH&api_key=db0586d77050155a01def6221e02c966e9d11981d2addd971d8ae21a85729e9a`
+      )
+      .then((res) => {
+        console.log("scale Factor", res.data);
+        setScaleFactor(res.data["ETH"]);
+      });
+  }
   const handleAmountChange = (amount) => {
     setSelectedAmount(amount);
   };
@@ -120,15 +135,18 @@ function TradeBar() {
           }}
           onChange={(e) => {
             handleUnitsChange(e.target.value);
+            if (scaleFactor) {
+              setSelectedAmount(scaleFactor * price * Number(e.target.value));
+            }
           }}
-          disabled={selectedAmount != 0}
+          disabled={false}
         />
         {/* <Typography variant="body1">How much?</Typography> */}
         <Typography variant="h6">OR</Typography>
         {/* <Typography variant="body1">Stock units?</Typography> */}
         <TextField
           id="trade-price-input"
-          label="Enter Amount in USD$"
+          label="Enter Amount in ETH"
           type="number"
           variant="filled"
           InputLabelProps={{
@@ -141,8 +159,11 @@ function TradeBar() {
           }}
           onChange={(e) => {
             handleAmountChange(e.target.value);
+            if (scaleFactor) {
+              setSelectedUnits(Number(e.target.value) / (price * scaleFactor));
+            }
           }}
-          disabled={selectedUnits != 0}
+          disabled={false}
         />
         <Box
           sx={{
@@ -160,8 +181,10 @@ function TradeBar() {
             variant="outlined"
             onClick={() => {
               handleAmountChange(100);
+              if (scaleFactor) {
+                setSelectedUnits(100 / (price * scaleFactor));
+              }
             }}
-            disabled={selectedUnits != 0}
             sx={{
               borderColor: `black`,
             }}
@@ -171,8 +194,10 @@ function TradeBar() {
             variant="outlined"
             onClick={() => {
               handleAmountChange(200);
+              if (scaleFactor) {
+                setSelectedUnits(Number(200) / (price * scaleFactor));
+              }
             }}
-            disabled={selectedUnits != 0}
             sx={{
               borderColor: `black`,
             }}
@@ -182,8 +207,10 @@ function TradeBar() {
             variant="outlined"
             onClick={() => {
               handleAmountChange(500);
+              if (scaleFactor) {
+                setSelectedUnits(Number(500) / (price * scaleFactor));
+              }
             }}
-            disabled={selectedUnits != 0}
             sx={{
               borderColor: `black`,
             }}
@@ -193,8 +220,10 @@ function TradeBar() {
             variant="outlined"
             onClick={() => {
               handleAmountChange(1000);
+              if (scaleFactor) {
+                setSelectedUnits(Number(1000) / (price * scaleFactor));
+              }
             }}
-            disabled={selectedUnits != 0}
             sx={{
               borderColor: `black`,
             }}

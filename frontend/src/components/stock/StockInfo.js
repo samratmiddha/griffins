@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { StockChart } from "./StockChart";
 import getStockInfo from "../../features/requests/getStockInfo";
 import getStockPrice from "../../features/requests/getStockPrice.js";
+import { useDispatch } from "react-redux";
 
 export default function StockInfo() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,10 +16,10 @@ export default function StockInfo() {
   const [stockDataset, setStockDataset] = useState([]);
   const [stockPrice, setStockPrice] = useState();
   useEffect(() => {
-    getStockInfo(symbol, setStockInfo);
-    getStockPrice(symbol, setStockPrice);
+    getStockInfo(symbol, setStockInfo, true, dispatch);
+    getStockPrice(symbol, setStockPrice, true, dispatch);
   }, [symbol]);
-
+  const dispatch = useDispatch();
   return (
     <Box
       sx={{
@@ -35,12 +36,12 @@ export default function StockInfo() {
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
           <Typography variant="h4" sx={{ color: "white" }}>
-            {stockInfo && stockInfo.bestMatches[0]["2. name"]}
+            {stockInfo ? stockInfo.bestMatches[0]["2. name"] : <></>}
           </Typography>
           <Typography
             sx={{ marginLeft: "1rem", alignSelf: "flex-end", color: "grey" }}
           >
-            {stockInfo && symbol}
+            {symbol}
           </Typography>
         </Box>
       </Box>
