@@ -26,6 +26,7 @@ function TradeBar() {
     <Card
       sx={{
         width: `30vw`,
+        minWidth: "20rem",
         marginLeft: "3vw",
         alignSelf: "center",
         backgroundColor: "#F3EF52",
