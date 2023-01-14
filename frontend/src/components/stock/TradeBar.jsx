@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Box, Button, ButtonGroup, Chip, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Chip,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,15 +22,20 @@ function TradeBar() {
     setSelectedUnits(units);
   };
 
-
   return (
     <Card
       sx={{
-        maxWidth: `300px`,
+        width: `30vw`,
+        marginLeft: "3vw",
+        alignSelf: "center",
+        backgroundColor: "#F3EF52",
+        height: "80vh",
       }}
     >
       <CardContent>
-        <Typography variant="h6">Make a trade</Typography>
+        <Typography variant="h4" align="center">
+          Make a trade
+        </Typography>
         <Box
           sx={{
             display: `flex`,
@@ -39,14 +51,29 @@ function TradeBar() {
               gap: `10px`,
               justifyContent: `center`,
               width: `100%`,
+              marginTop: "1.5rem",
             }}
           >
             <ButtonGroup
               variant="outlined"
               aria-label="outlined primary button group"
             >
-              <Button variant={selectedMode === "buy" ? "contained" : "outlined"} onClick={() => {setSelectedMode("buy")}}>Buy</Button>
-              <Button variant={selectedMode === "sell" ? "contained" : "outlined"} onClick={() => {setSelectedMode("sell")}}>Sell</Button>
+              <Button
+                variant={selectedMode === "buy" ? "contained" : "outlined"}
+                onClick={() => {
+                  setSelectedMode("buy");
+                }}
+              >
+                Buy
+              </Button>
+              <Button
+                variant={selectedMode === "sell" ? "contained" : "outlined"}
+                onClick={() => {
+                  setSelectedMode("sell");
+                }}
+              >
+                Sell
+              </Button>
             </ButtonGroup>
           </Box>
         </Box>
@@ -61,7 +88,7 @@ function TradeBar() {
           value={selectedUnits}
           sx={{
             width: `100%`,
-            margin: `10px 0px`,
+            margin: `2rem 0px`,
           }}
           onChange={(e) => {
             handleUnitsChange(e.target.value);
@@ -82,7 +109,7 @@ function TradeBar() {
           value={selectedAmount}
           sx={{
             width: `100%`,
-            margin: `10px 0px`,
+            margin: `2rem 0px`,
           }}
           onChange={(e) => {
             handleAmountChange(e.target.value);
@@ -97,7 +124,7 @@ function TradeBar() {
             flexWrap: `wrap`,
             justifyContent: `center`,
             width: `100%`,
-            margin: `10px 0px`
+            margin: `2rem 0px`,
           }}
         >
           <Chip
@@ -141,10 +168,16 @@ function TradeBar() {
           margin: `20px 0px`,
         }}
       >
-        <Button variant="contained" sx={{
-          borderRadius: `20px`,
-          width: `200px`
-        }}>Continue</Button>
+        <Button
+          variant="contained"
+          sx={{
+            borderRadius: `20px`,
+            width: `20rem`,
+            height: `3rem`,
+          }}
+        >
+          Continue
+        </Button>
       </CardActions>
     </Card>
   );
