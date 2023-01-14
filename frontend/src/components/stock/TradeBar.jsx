@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -10,10 +11,12 @@ import {
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import TransactionButton from "../transaction/TransactionButton";
+
 
 function TradeBar() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const symbol = searchParams.get("symbol");
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [selectedUnits, setSelectedUnits] = useState(0);
   const [selectedMode, setSelectedMode] = useState("buy");
@@ -236,23 +239,7 @@ function TradeBar() {
           margin: `20px 0px`,
         }}
       >
-        <Button
-          variant="contained"
-          sx={{
-            borderRadius: `20px`,
-            width: `20rem`,
-            height: `3rem`,
-            backgroundColor: `black`,
-            color: `white`,
-            "&:hover": {
-              backgroundColor: "black",
-              borderColor: "black",
-              color: `white`,
-            },
-          }}
-        >
-          Continue
-        </Button>
+        <TransactionButton />
       </CardActions>
     </Card>
   );
