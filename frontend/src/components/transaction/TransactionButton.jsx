@@ -22,7 +22,7 @@ function TransactionButton() {
       alert("No user address found. Try logging in again!");
       return;
     }
-    console.log(currentUserAddress)
+    console.log(currentUserAddress);
     let params = [
       {
         from: currentUserAddress,
@@ -44,13 +44,17 @@ function TransactionButton() {
     if (transaction) {
       emitSuccessToast("Transaction initiated.");
     }
-    const contractAddr="0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de";
-    const provider=new ethers.providers.Web3Provider(window.ethereum);
-    const contract=new ethers.Contract(contractAddr,oracleContractABI,provider);
-    contract.on("RequestFirstId",(requestID,costData)=>{
+    const contractAddr = "0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de";
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(
+      contractAddr,
+      oracleContractABI,
+      provider
+    );
+    contract.on("RequestFirstId", (requestID, costData) => {
       console.log("HEY");
       console.log(costData);
-    })
+    });
   };
 
   const getTransactions = async () => {
@@ -81,23 +85,23 @@ function TransactionButton() {
     <>
       {/* <Button onClick={sendTransaction}>Create Transaction of 0.001 eth</Button> */}
       <Button
-          onClick={sendTransaction}
-          variant="contained"
-          sx={{
-            borderRadius: `20px`,
-            width: `20rem`,
-            height: `3rem`,
-            backgroundColor: `black`,
+        onClick={sendTransaction}
+        variant="contained"
+        sx={{
+          borderRadius: `20px`,
+          width: `20rem`,
+          height: `3rem`,
+          backgroundColor: `black`,
+          color: `white`,
+          "&:hover": {
+            backgroundColor: "black",
+            borderColor: "black",
             color: `white`,
-            "&:hover": {
-              backgroundColor: "black",
-              borderColor: "black",
-              color: `white`,
-            },
-          }}
-        >
-          Continue
-        </Button>
+          },
+        }}
+      >
+        Continue
+      </Button>
       {/* <Button onClick={getTransactions}>Get Transactions</Button> */}
       <ToastContainer />
     </>
