@@ -1,0 +1,70 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "i",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "samplefunc",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"griffins/backend/contracts/sample.sol": "Sample"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"griffins/backend/contracts/sample.sol": {
+			"keccak256": "0x76cb74f604f395a1e92821f8a5742d9d68bf2a58173acb9841c72ab6a310539a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9223b4eba8997eb35364b7f3a0df4d70d0fec88220c2df7ee4d25fa6c1a00e46",
+				"dweb:/ipfs/QmUNmR56kXTwDRBLfLmAGP1yDrGEqmebn2zS4woiv57eM1"
+			]
+		}
+	},
+	"version": 1
+}

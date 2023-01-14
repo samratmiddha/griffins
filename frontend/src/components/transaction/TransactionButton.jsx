@@ -8,8 +8,11 @@ import emitSuccessToast from "../../utilities/emitSuccessToast";
 import emitWarnToast from "../../utilities/emitWarnToast";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BigNumber } from "ethers";
 
-function TransactionButton() {
+function TransactionButton(props) {
+  let {selectedAmount,symbol,selectedUnits}=props;
+  
   const currentUserAddress = useSelector((state) => state.user.userAddress);
 
   const ethToWeiHex = (eth) => {
@@ -22,34 +25,36 @@ function TransactionButton() {
       alert("No user address found. Try logging in again!");
       return;
     }
-    console.log(currentUserAddress)
-    let params = [
-      {
-        from: currentUserAddress,
-        // to: "0x1EF3A9077ba56c91d49837615E669455a5377629",
-        to: "0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de",
-        value: ethToWeiHex(0.001),
-      },
-    ];
+    // let params = [
+    //   {
+    //     from: currentUserAddress,
+    //     // to: "0x1EF3A9077ba56c91d49837615E669455a5377629",
+    //     to: "0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de",
+    //     value: ethToWeiHex(0.001),
+    //   },
+    // ];
 
-    const transaction = await window.ethereum
-      .request({
-        method: "eth_sendTransaction",
-        params,
-      })
-      .catch((_error) => {
-        emitWarnToast("Transaction cancelled.");
-      });
+    // const transaction = await window.ethereum
+    //   .request({
+    //     method: "eth_sendTransaction",
+    //     params,
+    //   })
+    //   .catch((_error) => {
+    //     emitWarnToast("Transaction cancelled.");
+    //   });
 
-    if (transaction) {
-      emitSuccessToast("Transaction initiated.");
-    }
-    const contractAddr="0x23c1dFbbEBf49732f4C2A5b9E494062c1ff918de";
+    // if (transaction) {
+    //   emitSuccessToast("Transaction initiated.");
+    // }
+    const contractAddr="0x6A2C6c42984f4265C569ba13aB062FCEc3f1ec57";
     const provider=new ethers.providers.Web3Provider(window.ethereum);
-    const contract=new ethers.Contract(contractAddr,oracleContractABI,provider);
-    contract.on("RequestFirstId",(requestID,costData)=>{
-      console.log("HEY");
-      console.log(costData);
+    const signer = provider.getSigner();
+    const contract=new ethers.Contract(contractAddr,oracleContractABI,signer);
+    // contract.validateTransaction(selectedAmount,symbol,selectedUnits).send({from:currentUserAddress, value: selectedAmount})
+    let weiAmount = String(Number(selectedAmount)*(10 ** 18))
+    contract.validateTransaction(symbol,selectedUnits,{value:weiAmount})
+    contract.on("StatusEvent",(status)=>{
+      console.log(status);
     })
   };
 

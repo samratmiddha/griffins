@@ -12,6 +12,8 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import TransactionButton from "../transaction/TransactionButton";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 
 function TradeBar() {
@@ -239,7 +241,7 @@ function TradeBar() {
           margin: `20px 0px`,
         }}
       >
-        <TransactionButton />
+        <TransactionButton selectedAmount={selectedAmount} symbol={symbol} selectedUnits={selectedUnits}/>
       </CardActions>
     </Card>
   );
