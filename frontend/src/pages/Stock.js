@@ -9,9 +9,9 @@ export default function Stock() {
       sx={{
         display: "flex",
         alignContent: "center",
-        height: "100vh",
         backgroundColor: "#141518",
         flexWrap: "wrap",
+        height: "100vh",
       }}
     >
       <StockInfo></StockInfo>
