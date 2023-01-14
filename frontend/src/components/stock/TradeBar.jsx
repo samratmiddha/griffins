@@ -240,7 +240,7 @@ function TradeBar() {
           margin: `20px 0px`,
         }}
       >
-        <TransactionButton />
+        <TransactionButton selectedAmount={selectedAmount} symbol={symbol} selectedUnits={selectedUnits}/>
       </CardActions>
     </Card>
   );
