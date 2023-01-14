@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Header from "../components/header/Header";
 import SearchBox from "../components/dashboard/SearchBox";
 import TradeBar from "../components/stock/TradeBar";
+import TransactionButton from "../components/transaction/TransactionButton";
 
 export default function Dashboard() {
   return (
@@ -25,6 +26,7 @@ export default function Dashboard() {
         Webster
       </Typography> */}
       <SearchBox />
+      <TransactionButton />
     </Box>
     </>
   );

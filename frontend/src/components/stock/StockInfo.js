@@ -23,7 +23,6 @@ export default function StockInfo() {
         setStockInfo(res.data);
         return res.data;
       });
-    axios.get();
     axios
       .get(
         `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${nanoid()}`
@@ -68,7 +67,7 @@ export default function StockInfo() {
             variant="h6"
             sx={{ alignSelf: "center", marginLeft: "1rem", color: "grey" }}
           >
-            USD
+                  {stockInfo && stockInfo.bestMatches[0]["8. currency"]}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignContent: "center" }}>

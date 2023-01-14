@@ -2,6 +2,10 @@ import { Button } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useSelector } from "react-redux";
+import emitSuccessToast from "../../utilities/emitSuccessToast";
+import emitWarnToast from "../../utilities/emitWarnToast";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function TransactionButton() {
   const currentUserAddress = useSelector((state) => state.user.userAddress);
@@ -30,12 +34,18 @@ function TransactionButton() {
         method: "eth_sendTransaction",
         params,
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((_error) => {
+        emitWarnToast("Transaction cancelled.");
       });
+
+    if (transaction) {
+      emitSuccessToast("Transaction initiated.");
+    }
   };
 
   const getTransactions = async () => {
+    emitSuccessToast("Initiated transaction process");
+
     if (!currentUserAddress) {
       alert("No user address found. Try logging in again!");
       return;
@@ -61,6 +71,7 @@ function TransactionButton() {
     <>
       <Button onClick={sendTransaction}>Create Transaction of 0.001 eth</Button>
       <Button onClick={getTransactions}>Get Transactions</Button>
+      <ToastContainer />
     </>
   );
 }
