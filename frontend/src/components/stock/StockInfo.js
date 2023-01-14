@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Card, Typography, Button } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -9,51 +9,9 @@ export default function StockInfo() {
   const [searchParams, setSearchParams] = useSearchParams();
   const symbol = searchParams.get("symbol");
   const [stockInfo, setStockInfo] = useState();
-  const [chartOption, setChartOption] = useState("3M");
+  const [chartOption, setChartOption] = useState("1W");
   const [stockDataset, setStockDataset] = useState([]);
-  function handleCsv(data, instances) {
-    var allRows = data.split(/\r?\n|\r/);
-    if (!instances) {
-      instances = allRows.length();
-    }
-    var stockData = [];
-    for (var singleRow = 1; singleRow <= instances; singleRow++) {
-      var rowCells = allRows[singleRow].split(",");
-      stockData.push({
-        time: rowCells[0],
-        high: rowCells[2],
-        low: rowCells[3],
-      });
-    }
-    console.log(stockData);
-    return stockData;
-  }
-  function getStockData(data, instances) {
-    let s_data = [];
-    let keys = Object.keys(data);
-    instances = Math.min(keys.length, instances);
-    for (var row = 1; row <= instances; row++) {
-      if (
-        row > 1 &&
-        data[keys[row]]["3. low"] < data[keys[row - 1]]["3. low"]
-      ) {
-        s_data.push({
-          time: keys[row],
-          high: data[keys[row]]["2. high"],
-          low: data[keys[row]]["3. low"],
-          trend: "D",
-        });
-      } else {
-        s_data.push({
-          time: keys[row],
-          high: data[keys[row]]["2. high"],
-          low: data[keys[row]]["3. low"],
-          trend: "I",
-        });
-      }
-    }
-    return s_data;
-  }
+  const [stockPrice, setStockPrice] = useState();
   useEffect(() => {
     axios
       .get(
@@ -65,92 +23,185 @@ export default function StockInfo() {
         setStockInfo(res.data);
         return res.data;
       });
+    axios.get();
+    axios
+      .get(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${nanoid()}`
+      )
+      .then((res) => {
+        var key = Object.keys(res.data["Time Series (5min)"])[0];
+        setStockPrice(res.data["Time Series (5min)"][key]);
+      });
   }, [symbol]);
-  useEffect(() => {
-    if (chartOption === "1W") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=IBM&interval=15min&slice=year1month1&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          console.log("intraday-data", res.data);
-          setStockDataset(handleCsv(res.data, 250));
-        });
-    } else if (chartOption === "1M") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=compact&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          setStockDataset(getStockData(res.data["Time Series (Daily)"], 30));
-        });
-    } else if (chartOption === "3M") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&outputsize=compact&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          setStockDataset(getStockData(res.data["Time Series (Daily)"], 100));
-        });
-    } else if (chartOption === "1Y") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=IBM&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          setStockDataset(getStockData(res.data["Weekly Time Series"], 52));
-        });
-    } else if (chartOption === "5Y") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=IBM&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          setStockDataset(getStockData(res.data["Weekly Time Series"], 260));
-        });
-    }
-  }, [chartOption]);
 
   return (
-    <Box sx={{ width: "60vw" }}>
+    <Box
+      sx={{
+        width: "60vw",
+        marginLeft: "2vw",
+        alignSelf: "center",
+        backgroundColor: "#27292F",
+        padding: "2rem",
+        borderRadius: "10px",
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <Typography>
+          <Typography variant="h4" sx={{ color: "white" }}>
             {stockInfo && stockInfo.bestMatches[0]["2. name"]}
           </Typography>
-          {console.log(stockDataset)}
-          <Typography sx={{ marginLeft: "1rem" }}>
+          <Typography
+            sx={{ marginLeft: "1rem", alignSelf: "flex-end", color: "grey" }}
+          >
             {stockInfo && symbol}
           </Typography>
         </Box>
       </Box>
       <hr></hr>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}></Box>
-      <Box>{stockDataset && <StockChart chartData={stockDataset} />}</Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex" }}>
+          <Typography variant="h2" sx={{ color: "#F3EF52" }}>
+            {console.log(stockPrice)}
+            {stockPrice && stockPrice["4. close"]}
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{ alignSelf: "center", marginLeft: "1rem", color: "grey" }}
+          >
+            USD
+          </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignContent: "center" }}>
+          <Button
+            onClick={() => {
+              setChartOption("1D");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            1D
+          </Button>
+          <Button
+            onClick={() => {
+              setChartOption("1W");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            1W
+          </Button>
+          <Button
+            onClick={() => {
+              setChartOption("1M");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            1M
+          </Button>
+          <Button
+            onClick={() => {
+              setChartOption("3M");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            3M
+          </Button>
+          <Button
+            onClick={() => {
+              setChartOption("1Y");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            1Y
+          </Button>
+          <Button
+            onClick={() => {
+              setChartOption("5Y");
+            }}
+            sx={{ color: "#F3EF52" }}
+          >
+            5Y
+          </Button>
+        </Box>
+      </Box>
+      <Box>
+        {stockDataset && (
+          <StockChart
+            chartData={stockDataset}
+            chartOption={chartOption}
+            setChartOption={setChartOption}
+            setStockDataset={setStockDataset}
+          />
+        )}
+      </Box>
       <Box sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>Open</Typography>
-          <Typography>374298</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            margin: "2rem",
+            width: "8rem",
+            height: "4rem",
+            backgroundColor: "#27292F",
+          }}
+        >
+          <Typography sx={{ color: "#F3EF52" }}>Open</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            {stockPrice && stockPrice["1. open"]}
+          </Typography>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>High</Typography>
-          <Typography>374298</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            margin: "2rem",
+            width: "8rem",
+            height: "4rem",
+            backgroundColor: "#27292F",
+          }}
+        >
+          <Typography sx={{ color: "#F3EF52" }}>High</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            {stockPrice && stockPrice["2. high"]}
+          </Typography>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>Low</Typography>
-          <Typography>374298</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            margin: "2rem",
+            width: "8rem",
+            height: "4rem",
+            backgroundColor: "#27292F",
+          }}
+        >
+          <Typography sx={{ color: "#F3EF52" }}>Low</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            {stockPrice && stockPrice["3. low"]}
+          </Typography>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>Close</Typography>
-          <Typography>374298</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            margin: "2rem",
+            width: "8rem",
+            height: "4rem",
+            backgroundColor: "#27292F",
+          }}
+        >
+          <Typography sx={{ color: "#F3EF52" }}>Close</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            {stockPrice && stockPrice["4. close"]}
+          </Typography>
         </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>Adjusted Close</Typography>
-          <Typography>374298</Typography>
-        </Box>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography>Volume</Typography>
-          <Typography>374298</Typography>
+        <Box
+          sx={{
+            textAlign: "center",
+            margin: "2rem",
+            width: "8rem",
+            height: "4rem",
+            backgroundColor: "#27292F",
+          }}
+        >
+          <Typography sx={{ color: "#F3EF52" }}>Volume</Typography>
+          <Typography variant="h5" sx={{ color: "white" }}>
+            {stockPrice && stockPrice["5. volume"]}
+          </Typography>
         </Box>
       </Box>
     </Box>
