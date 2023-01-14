@@ -38,7 +38,7 @@ function TransactionButton() {
 
     contract.on("RequestFirstId", async (requestID, status) => {
       if (status) {
-        const isValid = validate();
+        const isValid = validate(currentUserAddress);
 
         if (isValid) {
           let params = [
@@ -61,7 +61,7 @@ function TransactionButton() {
 
           if (transaction) {
             emitSuccessToast("Transaction initiated.");
-            checkBuffer(symbol, quantity, transaction);
+            checkBuffer(symbol, quantity, transaction, currentUserAddress);
           }
         }
       } else {

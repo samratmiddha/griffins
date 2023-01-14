@@ -1,22 +1,22 @@
 import axios from "axios";
-import ipfsSaveFile from "./ipfsStore"
+import ipfsSaveFile from "./ipfsStore";
 
-const validate = () => {
-    const apiEndPointCid = ""
+const validate = (userAddress) => {
+  const apiEndPointCid = `hash/${userAddress}/`;
 
-    const cidFromClient = localStorage.getItem("cid")
+  const cidFromClient = localStorage.getItem("cid");
 
-    if (cidFromClient){
-        const cidFromServer = axios.post(apiEndPointCid, {})
+  if (cidFromClient) {
+    const cidFromServer = axios.get(apiEndPointCid);
 
-        if (cidFromClient === cidFromServer) {
-            return true;
-        } else {
-            return false;
-        }
+    if (cidFromClient === cidFromServer) {
+      return true;
     } else {
-        return true;
+      return false;
     }
-}
+  } else {
+    return true;
+  }
+};
 
-export default validate
+export default validate;
