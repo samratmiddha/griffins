@@ -1,4 +1,4 @@
-import SearchBox from "../components/SearchBox";
+import SearchBox from "../components/dashboard/SearchBox";
 import TradeBar from "../components/stock/TradeBar";
 
 export default function Dashboard() {
