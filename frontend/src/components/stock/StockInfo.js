@@ -67,7 +67,7 @@ export default function StockInfo() {
             variant="h6"
             sx={{ alignSelf: "center", marginLeft: "1rem", color: "grey" }}
           >
-            USD
+                  {stockInfo && stockInfo.bestMatches[0]["8. currency"]}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", alignContent: "center" }}>
