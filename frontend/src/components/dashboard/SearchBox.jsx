@@ -11,9 +11,11 @@ import { useCallback, useState } from "react";
 import debouncer from "../../utilities/debouncer";
 import { nanoid } from "nanoid";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SearchBox() {
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -36,6 +38,7 @@ function SearchBox() {
     <Box
       sx={{
         width: `70%`,
+        alignSelf: "center",
       }}
     >
       <TextField
@@ -49,14 +52,20 @@ function SearchBox() {
         sx={{
           margin: `10px 0px`,
           width: `100%`,
+          backgroundColor: "white",
         }}
         onChange={debouncedSearch}
       />
-      <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+      <List sx={{ width: "100%", backgroundColor: "white" }}>
         {searchResults.map((result) => {
           return (
             <ListItem key={result["1. symbol"]} disablePadding>
-              <ListItemButton onClick={() => console.log(result)} dense>
+              <ListItemButton
+                onClick={(e) => {
+                  console.log(e);
+                }}
+                dense
+              >
                 <ListItemText
                   id={String(result["1. symbol"])}
                   primary={`${result["2. name"]} (${result["1. symbol"]})`}
