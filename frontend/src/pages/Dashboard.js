@@ -6,10 +6,11 @@ import TransactionButton from "../components/transaction/TransactionButton";
 import CreditsFooter from "../components/credits/CreditsFooter";
 import { ToastContainer } from "react-toastify" 
 import ipfsSaveFile from "../ipfs/ipfsStore";
+import validate from "../ipfs/validate";
 
 export default function Dashboard() {
   const call = async () => {
-    await ipfsSaveFile();
+    validate();
   }
 
   return (
