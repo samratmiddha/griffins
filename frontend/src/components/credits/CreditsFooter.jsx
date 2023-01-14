@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
 const style = {
-  width: `100%`,
   background: `black`,
   padding: `5px`,
   color: `#F3EF52`,
