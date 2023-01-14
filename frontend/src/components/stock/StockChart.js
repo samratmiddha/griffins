@@ -13,6 +13,12 @@ import { useEffect } from "react";
 import getStockData from "../../utilities/getStockData";
 import handleCsv from "../../utilities/csvHandler";
 import { useSearchParams } from "react-router-dom";
+import getDataFor1day from "../../features/requests/getDataFor1day";
+import getDataFor3year from "../../features/requests/getDataFor3year";
+import getDataFor1year from "../../features/requests/getDataFor1year";
+import getDataFor3month from "../../features/requests/getDataFor3month";
+import getDataFor1month from "../../features/requests/getDataFor1month";
+import getDataFor1week from "../../features/requests/getDataFor1week";
 Chart.register([CategoryScale, LinearScale, BarElement, Legend, Tooltip]);
 
 export const StockChart = (props) => {
@@ -31,62 +37,17 @@ export const StockChart = (props) => {
 
   useEffect(() => {
     if (props.chartOption === "1W") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=${symbol}&interval=15min&slice=year1month1&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          props.setStockDataset(handleCsv(res.data, 250));
-        });
+      getDataFor1week(symbol, props.setStockDataset);
     } else if (props.chartOption === "1M") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=compact&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          props.setStockDataset(
-            getStockData(res.data["Time Series (Daily)"], 30)
-          );
-        });
+      getDataFor1month(symbol, props.setStockDataset);
     } else if (props.chartOption === "3M") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${symbol}&outputsize=compact&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          props.setStockDataset(
-            getStockData(res.data["Time Series (Daily)"], 100)
-          );
-        });
+      getDataFor3month(symbol, props.setStockDataset);
     } else if (props.chartOption === "1Y") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=${symbol}&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          props.setStockDataset(
-            getStockData(res.data["Weekly Time Series"], 52)
-          );
-        });
-    } else if (props.chartOption === "5Y") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol=${symbol}&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          props.setStockDataset(
-            getStockData(res.data["Weekly Time Series"], 260)
-          );
-        });
+      getDataFor1year(symbol, props.setStockDataset);
+    } else if (props.chartOption === "3Y") {
+      getDataFor3year(symbol, props.setStockDataset);
     } else if (props.chartOption === "1D") {
-      axios
-        .get(
-          `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${nanoid()}`
-        )
-        .then((res) => {
-          console.log("intraday-data", res.data);
-          props.setStockDataset(getStockData(res.data["Time Series (5min)"]));
-        });
+      getDataFor1day(symbol, props.setStockDataset);
     }
   }, [props.chartOption]);
   return (

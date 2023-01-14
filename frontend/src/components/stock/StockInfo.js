@@ -23,7 +23,6 @@ export default function StockInfo() {
         setStockInfo(res.data);
         return res.data;
       });
-    axios.get();
     axios
       .get(
         `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${nanoid()}`
@@ -114,11 +113,11 @@ export default function StockInfo() {
           </Button>
           <Button
             onClick={() => {
-              setChartOption("5Y");
+              setChartOption("3Y");
             }}
             sx={{ color: "#F3EF52" }}
           >
-            5Y
+            3Y
           </Button>
         </Box>
       </Box>
