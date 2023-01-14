@@ -1,3 +1,4 @@
+import axios from "axios";
 import { create } from "ipfs-http-client"
 
 const ipfsClient = async () => {
@@ -11,11 +12,32 @@ const ipfsClient = async () => {
     return ipfs;
 }
 
-const ipfsSaveFile = async () => {
+const ipfsSaveFile = async (transaction) => {
     const client = await ipfsClient();
+    const apiEndPointPostCid = "";
 
-    let result = await client.add(`welcome1`);
-    console.log(result);
+    const cid = window.localStorage.getItem("cid");
+
+    let fileData = client.get(cid)
+    let data;
+
+    for await (const itr of fileData) {
+        data = Buffer.from(itr).toString()
+    }
+
+    let jsonData = JSON.parse(data)
+    let newJsonData = [...jsonData, transaction]
+    // newJsonData.push({transaction})
+
+    let options = {
+        wrapWithDirectory: false,
+    }
+    
+    let newCid = await client.add(newJsonData, options);
+    
+    let updatedBufferOfServer = axios.post(apiEndPointPostCid, {});
+    console.log(updatedBufferOfServer);
+    window.localStorage.setItem("cid", newCid);
 }
 
 export default ipfsSaveFile
