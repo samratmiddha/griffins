@@ -3,8 +3,18 @@
 ## Deploying Our Project on your local :
 
 ```
-cd frontend
-npm start
+$ ~/griffin/ : cd frontend
+$ ~/griffin/frontend/ : npm install
+$ ~/griffin/frontend/ : npm start
+$ ~/griffin/backend/contract/ : {Compile the solidity oracleContract.sol and deploy it on the goerli testnet and change the contract in grinffin/frontend/src/components/toke/tokenTransaction/}
+$ ~/griffin/griffins/ : python3 manage.py runserver
+$ ~/ : npm i --location=global ipfs
+$ ~/ : jsipfs daemon
+{Open a new terminal}
+$ ~/ : jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["http://127.0.0.1:5002", "http://localhost:3000", "http://127.0.0.1:5001", "https://webui.ipfs.io"]'
+$ ~/ : jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
+
+
 ```
 
 # Frontend :
@@ -34,7 +44,9 @@ Here we are explaining the userflow of our frontend :
 
 ## Buy and Sell Page
 
-1 ) On this we are rendering chart 
+1 ) On this page we are rendering a chart about the stocks history . 
+
+2 ) User can enter the units the stock he wants and the amount of **ETH** he wants to spend on the stock then on clicking continue the user will have to sign the transaction and send it to the contract .
 
 ![Screenshot_20230115_072950](https://user-images.githubusercontent.com/65587505/212514194-d9ca6517-b440-4233-813f-a44ea3f1a400.png)
 
@@ -86,7 +98,7 @@ Also this model is proposed for the current time where it is not possible to min
 
     This seems to be a very obvious solution 
 
-2) Security : 
+2 ) Security : 
 
     Transactions are done using blockchain and thus come with inherent security .
 
@@ -117,7 +129,3 @@ In our code we will be able to assign user stock
 ## A BlockChain solution for StockMarket :
 
 If we deployed the ERC20 token every company will release it's token on the blockchain which will be blockchain equivalent to the share and we can make user buy those tokens and store it in their metamask .
-
-
-
-
