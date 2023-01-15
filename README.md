@@ -29,9 +29,15 @@ Here we are explaining the userflow of our frontend :
 
 3 ) As the user searches and selects a particular stock he is redirected to the buy and sell page
 
+![Screenshot_20230115_072755](https://user-images.githubusercontent.com/65587505/212513735-44e0d06d-eebc-4f77-9d07-8963501fec75.png)
+
+
 ## Buy and Sell Page
 
 1 ) On this we are rendering chart 
+
+![Screenshot_20230115_072950](https://user-images.githubusercontent.com/65587505/212514194-d9ca6517-b440-4233-813f-a44ea3f1a400.png)
+
 
 # Smart Contract : 
 
@@ -46,6 +52,9 @@ Our contract is using a ChainLink service for verifying the transaction such tha
 
 msg.value-msg.gas = value of the units of stock asked by the user 
 ```
+
+![WhatsApp Image 2023-01-15 at 07 36 36](https://user-images.githubusercontent.com/65587505/212519584-5fc94db5-6b03-4c50-862c-f4159840fa2d.jpeg)
+
 
 # IPFS :
 
@@ -65,11 +74,16 @@ We made a **django** backend whenever the transaction is successful a signal is 
 Though there is some scope of a single point of trust still we can give an arguement that all this is automated and sufficient secutity level of security can be ensured in a deployed project .
 
 Also this model is proposed for the current time where it is not possible to mint ERC20 tokens for any stockPrice
+
+![WhatsApp Image 2023-01-15 at 07 44 12](https://user-images.githubusercontent.com/65587505/212519626-3fda8f7d-33ce-48a2-b693-fac5c0339aa1.jpeg)
+
+
 # Features :
 
 1 ) Buying smaller than one share by user :
 
     This seems to be a very obvious solution 
+
 
 # Possible Improvements :
 
