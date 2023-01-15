@@ -8,6 +8,7 @@ import emitSuccessToast from "../../utilities/emitSuccessToast";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import validate from "../../ipfs/validate";
+import checkBuffer from "../../ipfs/checkBuffer";
 
 function TransactionButton(props) {
   let { selectedAmount, symbol, selectedUnits } = props;
@@ -20,6 +21,7 @@ function TransactionButton(props) {
       return;
     }
 
+
     const contractAddr = "0x6A2C6c42984f4265C569ba13aB062FCEc3f1ec57";
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -31,11 +33,14 @@ function TransactionButton(props) {
     
     let weiAmount = String(Number(selectedAmount) * 10 ** 21);
 
+    console.log(currentUserAddress);
     let isValid = validate(currentUserAddress);
     if (isValid) {
       let valid= await contract.validateTransaction(symbol, 10**3 *selectedUnits, { value: weiAmount });
       console.log(valid.hash)
       contract.on("StatusEvent", (status) => {
+        checkBuffer(symbol, selectedUnits, "asds", currentUserAddress);
+        emitSuccessToast(`Transaction Completed. Transaction id ${valid.hash}`);
         console.log(status);
         console.log(valid.hash);
       });
