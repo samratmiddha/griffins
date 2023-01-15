@@ -39,6 +39,8 @@ Here we are explaining the userflow of our frontend :
 
 2 ) Our contract is inhereting the Chainlink contracts used for communication with the oracle node which we are using as we are verifying if the value of ether sent by the user is equal to the value of the units of stock the user is asking for 
 
+3 ) Also our smart contract will be storing **ETH** relative to each user in the contract .
+
 ### OR
 
 ```
@@ -71,6 +73,14 @@ Also this model is proposed for the current time where it is not possible to min
 
     This seems to be a very obvious solution 
 
+2) Security : 
+
+    Transactions are done using blockchain and thus come with inherent security .
+
+3 ) Gas Price :
+
+    Gas Price is a major issue in blockchain but over long term usage Gas Price is expected to be less compared to the overall turnover of the stock .
+
 # Possible Improvements :
 
 ## ERC20 Token :
@@ -80,6 +90,20 @@ Ideally stock every company shall have it's ERC20 token but this was not this ca
 ## Orbital DB : 
 
 We could have used this DBMS for ipfs but due to lack of time we were not able to cover it's stack .
+
+
+# Possible Implications : 
+
+Since , We were not able to deploy the ERC20 token solution we can only act as the first and not the second given that we are able to execute the ERC20 token 
+
+## A BlockChain MutualFund :
+
+In our code we will be able to assign user stock 
+
+## A BlockChain solution for StockMarket :
+
+If we deployed the ERC20 token every company will release it's token on the blockchain which will be blockchain equivalent to the share and we can make user buy those tokens and store it in their metamask .
+
 
 
 
