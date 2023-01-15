@@ -15,23 +15,27 @@ const ipfsClient = async () => {
 
 const ipfsSaveFile = async (transaction, userAddress) => {
   const client = await ipfsClient();
-  const apiEndPointPostCid = `hash/${userAddress}/`;
-  await BackendClient.get(apiEndPointPostCid).then(async (res) => {
-    if (res.data.detail) {
-      await BackendClient.post("hash/", { user_id: userAddress, hash: "" });
-    }
+  console.log("ipfs ", userAddress);
+  const apiEndPointPostCid = `hash/${String(userAddress)}/`;
+  await BackendClient.get(apiEndPointPostCid).catch(async (res) => {
+    await BackendClient.post("hash/", { user_id: userAddress, hash: "as" });
   });
 
   const cid = window.localStorage.getItem("cid");
 
-  let fileData = client.get(cid);
   let data;
+  let jsonData;
+  if (cid){
+    let fileData = client.get(cid);
 
-  for await (const itr of fileData) {
-    data = Buffer.from(itr).toString();
+    for await (const itr of fileData) {
+      data = Buffer.from(itr).toString();
+    }
+  
+    jsonData = JSON.parse(data);
+  } else {
+    jsonData = []
   }
-
-  let jsonData = JSON.parse(data);
   let newJsonData = [...jsonData, transaction];
   // newJsonData.push({transaction})
 
@@ -39,15 +43,18 @@ const ipfsSaveFile = async (transaction, userAddress) => {
     wrapWithDirectory: false,
   };
 
-  let newCid = await client.add(newJsonData, options);
+  let newCid = await client.add(JSON.stringify(newJsonData), options);
 
-  let updatedBufferOfServer = axios
+  let updatedBufferOfServer = BackendClient
     .patch(apiEndPointPostCid, { hash: newCid })
     .then((res) => {
       return res.data;
     });
-  console.log(updatedBufferOfServer);
-  window.localStorage.setItem("cid", newCid);
+  // console.log(updatedBufferOfServer);
+  // console.log(Buffer.newCid.cid);
+  data = newCid.cid.toString("base16")
+  console.log(data)
+  window.localStorage.setItem("cid", newCid.cid);
 };
 
 export default ipfsSaveFile;
