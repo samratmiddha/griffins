@@ -1,4 +1,4 @@
-# Webster : The modern solution for buying stocks with blockchain
+# Webster : Modern decentralized solution for buying stocks 
 
 ## Deploying Our Project on your local :
 
