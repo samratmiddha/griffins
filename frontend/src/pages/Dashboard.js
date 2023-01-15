@@ -7,16 +7,13 @@ import CreditsFooter from "../components/credits/CreditsFooter";
 import { ToastContainer } from "react-toastify" 
 import ipfsSaveFile from "../ipfs/ipfsStore";
 import validate from "../ipfs/validate";
+import BackendClient from "../BackendClient";
+import axios from "axios";
 
 export default function Dashboard() {
-  const call = async () => {
-    validate();
-  }
-
   return (
     <>
     <Header />
-    <Button onClick = {call}>Click me</Button>
     <Box
       sx={{
         backgroundColor: "#141518",
